@@ -55,9 +55,8 @@ export default {
     handleTableChange(pagination) {
       this.$emit('changePagination', pagination)
     },
-  }
+  },
 }
 </script>
 
-<style>
-</style>
+<style></style>

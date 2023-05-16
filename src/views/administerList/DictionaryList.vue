@@ -1,12 +1,25 @@
 <template>
-  <div class="body"></div>
+  <div class="body">
+    <div class="tree">
+      <leftTree
+        :treeData="treeData"
+        :replaceFields="treeNodeReplaceFields"
+        @nodeClick="nodeClick"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
 import * as dictionaryApi from '@/api/dictionary'
+import { leftTree } from '@/components'
 export default {
   data() {
     return {
+      treeNodeReplaceFields: {
+        name: 'data_dictionary_name',
+        id: 'data_dictionary_id',
+      },
       params: {
         page: 1,
         page_size: 10,
@@ -15,36 +28,47 @@ export default {
       treeData: [],
     }
   },
+  components: {
+    leftTree,
+  },
   methods: {
-    getData() {
-      dictionaryApi.getData(this.params).then((res) => {
-        if (res.status === 'success') {
-          const result = res.data
-          if (result.data.length === 0 && result.current_page > 1) {
-            this.params.page--
-            this.getData()
-            return false
-          } else {
-            // ...render table
-            this.params.total = result.total
-            this.page = result.current_page
-            this.treeData = result.data
+    getTree() {
+      dictionaryApi
+        .getData({
+          page: 1,
+          page_size: 10,
+        })
+        .then((res) => {
+          if (res.status === 'success') {
+            this.treeData = res.data.data
             console.log(
-              '%c [ this.treeData ]-32',
-              'font-size:15px; background:#78fad8; color:#bcffff;',
+              '%c [ this.treeData ]-34',
+              'font-size:15px; background:#9e29f6; color:#e26dff;',
               this.treeData
             )
+          } else {
+            this.$message.warning(res.msg)
           }
-        } else {
-          this.$message.warning(res.msg)
-        }
-      })
+        })
     },
+    nodeClick() {},
+    getData() {},
   },
   mounted() {
-    this.getData()
+    this.getTree()
   },
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+.tree {
+  width: 370px;
+  height: 100%;
+}
+</style>
