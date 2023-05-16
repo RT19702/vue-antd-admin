@@ -36,15 +36,19 @@
             <a-icon type="edit" />
             编辑
           </a-button>
-          <a-button
-            size="small"
-            type="danger"
-            class="button-margin"
-            @click="deleteNotice(slotProps)"
-          >
-            <a-icon type="delete" />
-            删除
-          </a-button>
+          <a-popconfirm
+            placement="topLeft"
+            ok-text="确认"
+            cancel-text="取消"
+            @confirm="deleteNotice(slotProps)"
+            ><template slot="title">
+              <p>是否确认删除</p>
+            </template>
+            <a-button size="small" type="danger" class="button-margin">
+              <a-icon type="delete" />
+              删除
+            </a-button>
+          </a-popconfirm>
         </div>
       </template>
     </NoticeTable>
