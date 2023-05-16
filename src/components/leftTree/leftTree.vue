@@ -47,6 +47,17 @@ export default {
       blockTop: 5,
     }
   },
+  watch: {
+    treeData: {
+      deep: true,
+      handler(newVal) {
+        if (newVal.length) {
+          this.nodeClick(newVal[0])
+        }
+      },
+      immediate: true,
+    },
+  },
   methods: {
     nodeClick(item, index) {
       this.nodeObj = item
@@ -88,6 +99,6 @@ export default {
   width: 3px;
   height: 45px;
   background: #1890ff;
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
 </style>
