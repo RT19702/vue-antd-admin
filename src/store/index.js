@@ -6,13 +6,11 @@ import modules from './modules'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
+  modules: {
+    ...modules,
   },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules
+  state: {},
+  getters: {},
+  mutations: {},
+  actions: {},
 })
