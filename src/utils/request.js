@@ -31,15 +31,20 @@ request.interceptors.response.use(
     nprogress.done()
 
     const response = res.data
-    /* if (response.status === 'success') {
-    message.success(response.msg)
-  } else if (response.status === 'error') {
-    message.error(response.msg)
-  } */
+
+    if (response.status === 'success' && Number(response.code) === 0) {
+      return Promise.resolve(response.data)
+    } else {
+      console.log(
+        '%c [ response ]-34',
+        'font-size:15px; background:#f9e390; color:#ffffd4;',
+        response
+      )
+      message.error(response.message)
+    }
     return response
   },
   function (error) {
-    console.log('err' + error) // for debug
     message.error(error.message)
     return Promise.reject(error)
   }

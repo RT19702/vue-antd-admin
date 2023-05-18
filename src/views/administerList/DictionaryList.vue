@@ -95,11 +95,7 @@ export default {
           page_size: 9999,
         })
         .then((res) => {
-          if (res.status === 'success') {
-            this.treeData = res.data.data
-          } else {
-            this.$message.warning(res.msg)
-          }
+          this.treeData = res.data
         })
     },
     nodeClick(node) {
@@ -114,14 +110,7 @@ export default {
           }),
         })
         .then((res) => {
-          if (res.status === 'success') {
-            this.tableData = res.data.data
-            console.log(
-              '%c [ this.tableData ]-94',
-              'font-size:15px; background:#5145a2; color:#9589e6;',
-              this.tableData
-            )
-          }
+          this.tableData = res.data
         })
         .finally(() => {
           this.loading = false
