@@ -58,7 +58,14 @@
 <script>
 import NoticeModal from '@/components/form/FormDefault.vue'
 import NoticeTable from '@/components/table/TableDefault.vue'
-import { getNoticeApi, addNoticeApi, disableNoticeApi, enableNoticeApi, deleteNoticeApi, updateNoticeApi } from '@/api/list'
+import {
+  getNoticeApi,
+  addNoticeApi,
+  disableNoticeApi,
+  enableNoticeApi,
+  deleteNoticeApi,
+  updateNoticeApi,
+} from '@/api/list'
 export default {
   components: {
     NoticeModal,
@@ -150,18 +157,20 @@ export default {
   },
   methods: {
     /**
-      * @description 获取公告列表
-      * @param {Boolean} initialLoad 是否初次加载
-    */
+     * @description 获取公告列表
+     * @param {Boolean} initialLoad 是否初次加载
+     */
     async getNoticeList(initialLoad = false) {
       const params = this.params
-      const { data } = await getNoticeApi(params)
+      const data = await getNoticeApi(params)
       this.pagination.total = data.total
       const responseData = data.data
       if (responseData && responseData.length > 0) {
         responseData.forEach((item) => {
           // 检查数据是否已存在
-          const existingItem = this.data.find((dataItem) => dataItem.key === item.key)
+          const existingItem = this.data.find(
+            (dataItem) => dataItem.key === item.key
+          )
           if (!existingItem) {
             // 根据加载类型选择插入位置
             if (initialLoad) {
@@ -279,10 +288,12 @@ export default {
     async deleteNotice(item) {
       const { notice_id } = item
       await deleteNoticeApi(notice_id)
-      this.data = this.data.filter((dataItem) => dataItem.notice_id !== notice_id)
+      this.data = this.data.filter(
+        (dataItem) => dataItem.notice_id !== notice_id
+      )
       this.pagination.total -= 1
       this.$message.success('删除成功')
-    }
+    },
   },
   mounted() {
     this.getNoticeList()

@@ -95,11 +95,7 @@ export default {
           page_size: 9999,
         })
         .then((res) => {
-          if (res.status === 'success') {
-            this.treeData = res.data.data
-          } else {
-            this.$message.warning(res.msg)
-          }
+          this.treeData = res.data
         })
     },
     nodeClick(node) {
@@ -114,9 +110,13 @@ export default {
           }),
         })
         .then((res) => {
+<<<<<<< HEAD
           if (res.status === 'success') {
             this.tableData = res.data.data
           }
+=======
+          this.tableData = res.data
+>>>>>>> 807479206ce3005e7a48b6b6d5878c6dcf44d5dc
         })
         .finally(() => {
           this.loading = false
