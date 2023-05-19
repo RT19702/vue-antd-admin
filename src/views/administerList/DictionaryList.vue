@@ -4,7 +4,8 @@
       <leftTree
         :treeData="treeData"
         :replaceFields="treeNodeReplaceFields"
-        @nodeClick="nodeClick"
+        @nodeClick="treeNodeClick"
+        @add="treeNodeAdd"
       />
     </div>
     <div class="content">
@@ -59,11 +60,61 @@
         <div class="loader"></div>
       </div>
     </div>
+    <a-modal
+      :title="isAdd ? '新增' : '编辑'"
+      :visible="visible"
+      :cancelText="'取消'"
+      :okText="'保存'"
+      @ok="formSubmit"
+      @cancel="formCancel"
+    >
+      <!-- <p>{{ ModalText }}</p> -->
+      <div class="formContent">
+        <a-form-model ref="ruleForm" :model="form" :rules="rules">
+          <a-form-model-item
+            has-feedback
+            label="字典名称"
+            prop="data_dictionary_name"
+          >
+            <a-input
+              v-model="form.data_dictionary_name"
+              @change="
+                (e) => {
+                  this.AcronymsFunc(e.target.value)
+                }
+              "
+              style="width: 183px"
+            />
+          </a-form-model-item>
+          <a-form-model-item
+            has-feedback
+            label="字典key值"
+            prop="data_dictionary_key"
+          >
+            <a-input v-model="form.data_dictionary_key" style="width: 183px" />
+          </a-form-model-item>
+          <a-form-model-item
+            has-feedback
+            label="字典数据值"
+            prop="data_dictionary_value"
+          >
+            <a-input
+              v-model="form.data_dictionary_value"
+              style="width: 183px"
+            />
+          </a-form-model-item>
+          <a-form-model-item has-feedback label="允许编辑" prop="can_edit">
+            <a-switch :checked="form.can_edit" @change="switchChange" />
+          </a-form-model-item>
+        </a-form-model>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <script>
 import * as dictionaryApi from '@/api/dictionary'
+import py from '@/utils/vue-py'
 import { leftTree } from '@/components'
 export default {
   data() {
@@ -82,12 +133,45 @@ export default {
       editNodeObj: {},
       tableData: [],
       loading: false,
+      visible: false,
+      isAdd: false,
+      form: {
+        data_dictionary_name: '',
+        data_dictionary_key: '',
+        data_dictionary_value: '',
+        can_edit: false,
+      },
+      rules: {
+        data_dictionary_name: {
+          required: true,
+          trigger: 'blur',
+          message: '请输入字典名称',
+        },
+        data_dictionary_key: {
+          required: true,
+          trigger: 'blur',
+          message: '请输入数据字典唯一key',
+        },
+        data_dictionary_value: {
+          required: true,
+          trigger: 'blur',
+          message: '请输入数据字典值',
+        },
+      },
+      pid: 0,
     }
   },
   components: {
     leftTree,
   },
   methods: {
+    switchChange(checked) {
+      this.form.can_edit = checked
+    },
+    AcronymsFunc(v) {
+      const lt = py.initialLetter(v)
+      this.form.data_dictionary_key = lt
+    },
     getTree() {
       dictionaryApi
         .getData({
@@ -98,7 +182,7 @@ export default {
           this.treeData = res.data
         })
     },
-    nodeClick(node) {
+    treeNodeClick(node) {
       this.treeNodeObj = node
       this.loading = true
       dictionaryApi
@@ -116,8 +200,30 @@ export default {
           this.loading = false
         })
     },
+    treeNodeAdd() {
+      this.visible = true
+      this.isAdd = true
+      this.pid = 0
+    },
     getData() {},
     editNode() {},
+    formSubmit() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          const params = this._.cloneDeep(this.form)
+          params.pid = this.pid
+          params.can_edit = params.can_edit ? 1 : 2
+          if (this.isAdd) {
+            dictionaryApi.addDict(params).then(() => {
+              this.getTree()
+              this.$refs.ruleForm.resetFields()
+              this.visible = false
+            })
+          }
+        }
+      })
+    },
+    formCancel() {},
   },
   mounted() {
     this.getTree()
@@ -126,6 +232,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/ .ant-form-item-label {
+  width: 6em;
+}
 .body {
   height: 100%;
   width: 100%;
@@ -151,6 +260,10 @@ export default {
   border-bottom: 1px solid #e8e8e8;
   font-size: 17px;
   margin-bottom: 30px;
+}
+.formContent {
+  width: 500px;
+  height: 300px;
 }
 .title {
   display: flex;
