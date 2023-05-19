@@ -116,11 +116,6 @@ export default {
         .then((res) => {
           if (res.status === 'success') {
             this.tableData = res.data.data
-            console.log(
-              '%c [ this.tableData ]-94',
-              'font-size:15px; background:#5145a2; color:#9589e6;',
-              this.tableData
-            )
           }
         })
         .finally(() => {
