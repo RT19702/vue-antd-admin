@@ -1,5 +1,13 @@
 <template>
   <div>
+    <!-- 文章禁用表单 -->
+    <FormDefault
+      :visible.sync="disableFormVisible"
+      :modalData="disablemodalData"
+      :formFields="disableFormConfig"
+      @saveEvent="disableInfo"
+    />
+    <!-- 文章列表 -->
     <TableDefault
       :columns="columns"
       :pagination="pagination"
@@ -21,7 +29,7 @@
 </template>
 
 <script>
-import { TableDefault } from '@/components'
+import { TableDefault, FormDefault } from '@/components'
 import * as article from '@/api/article'
 export default {
   data() {
@@ -97,11 +105,30 @@ export default {
         showTotal: (total) => `共 ${total} 条`,
       },
       // 表格数据
-      articleList: []
+      articleList: [],
+      // 是否显示文章禁用表单
+      disableFormVisible: false,
+      // 禁用表单配置
+      disableFormConfig: [{
+        label: '禁用原因',
+        type: 'textarea',
+        required: true,
+        key: 'noPassNotice',
+        value: '',
+      },],
+      // 禁用文章弹框
+      disablemodalData: {
+        title: '禁用文章',
+        confirmLoading: false,
+        formLayout: 'vertical',
+      },
+      // 当前选中文章信息
+      selectedCurrent: {},
     }
   },
   components: {
-    TableDefault
+    TableDefault,
+    FormDefault
   },
   methods: {
     // 获取文章列表
@@ -115,8 +142,24 @@ export default {
         this.articleList.push(...responseData)
       }
     },
-    changeStatus() {
-      console.log('changeStatus')
+    // 改变文章状态
+    async changeStatus(item) {
+      const { enable_status, article_id } = item
+      if (enable_status === 1) {
+        this.disableFormVisible = true
+        this.selectedCurrent = item
+      } else {
+        item.enable_status = 1
+        await article.enableArticle(article_id)
+        this.$message.success('启用成功')
+      }
+    },
+    async disableInfo(val) {
+      const { article_id } = this.selectedCurrent
+      await article.disableArticle(article_id, val)
+      this.selectedCurrent.enable_status = 2
+      this.$message.success('禁用成功')
+      this.disableFormVisible = false
     }
   },
   computed: {

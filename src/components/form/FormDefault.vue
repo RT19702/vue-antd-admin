@@ -8,7 +8,7 @@
     @ok="handleOk"
     @cancel="handleCancel"
   >
-    <a-form :form="form" ref="form">
+    <a-form :form="form" ref="form" :layout="modalData.formLayout">
       <div v-for="field in formFields" :key="field.key">
         <a-form-item :label="field.label" :required="field.required">
           <!-- text文本框 -->
@@ -20,11 +20,11 @@
                   rules: [
                     {
                       required: field.required,
-                      message: `${field.label}不能为空`,
-                    },
+                      message: `${field.label}不能为空`
+                    }
                   ],
-                  initialValue: field.value,
-                },
+                  initialValue: field.value
+                }
               ]"
               :placeholder="`请输入${field.label}`"
             ></a-input>
@@ -38,16 +38,16 @@
                   rules: [
                     {
                       required: field.required,
-                      message: `${field.label}不能为空`,
-                    },
+                      message: `${field.label}不能为空`
+                    }
                   ],
-                  initialValue: field.value,
-                },
+                  initialValue: field.value
+                }
               ]"
               :placeholder="`请输入${field.label}`"
               :auto-size="{
                 minRows: field.minRows || 5,
-                maxRows: field.maxRows || 8,
+                maxRows: field.maxRows || 8
               }"
               :maxLength="field.max || 256"
             />
@@ -62,11 +62,11 @@
                   rules: [
                     {
                       required: field.required,
-                      message: `请选择${field.label}`,
-                    },
+                      message: `请选择${field.label}`
+                    }
                   ],
-                  initialValue: field.value,
-                },
+                  initialValue: field.value
+                }
               ]"
             >
               <a-select-option
@@ -86,11 +86,11 @@
                   rules: [
                     {
                       required: field.required,
-                      message: `请选择${field.label}`,
-                    },
+                      message: `请选择${field.label}`
+                    }
                   ],
-                  initialValue: field.value,
-                },
+                  initialValue: field.value
+                }
               ]"
             >
               <a-checkbox
@@ -111,11 +111,11 @@
                   rules: [
                     {
                       required: field.required,
-                      message: `请选择${field.label}`,
-                    },
+                      message: `请选择${field.label}`
+                    }
                   ],
-                  initialValue: field.value,
-                },
+                  initialValue: field.value
+                }
               ]"
             >
               <a-radio
@@ -158,6 +158,7 @@ export default {
         return {
           title: 'Modal Title',
           confirmLoading: false,
+          formLayout: 'vertical', // horizontal | vertical | inline
         }
       },
     },

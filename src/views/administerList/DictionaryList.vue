@@ -205,8 +205,8 @@ export default {
       this.isAdd = true
       this.pid = 0
     },
-    getData() {},
-    editNode() {},
+    getData() { },
+    editNode() { },
     formSubmit() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
@@ -223,7 +223,7 @@ export default {
         }
       })
     },
-    formCancel() {},
+    formCancel() { },
   },
   mounted() {
     this.getTree()
@@ -234,6 +234,9 @@ export default {
 <style lang="less" scoped>
 /deep/ .ant-form-item-label {
   width: 6em;
+}
+.ant-form-item {
+  display: flex;
 }
 .body {
   height: 100%;
