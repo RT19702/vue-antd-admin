@@ -2,6 +2,7 @@
   <div>
     <!-- 文章禁用表单 -->
     <FormDefault
+      ref="disableForm"
       :visible.sync="disableFormVisible"
       :modalData="disablemodalData"
       :formFields="disableFormConfig"
@@ -160,6 +161,9 @@ export default {
       this.selectedCurrent.enable_status = 2
       this.$message.success('禁用成功')
       this.disableFormVisible = false
+      this.$refs.disableForm.setFormValues({
+        noPassNotice: ''
+      })
     }
   },
   computed: {
