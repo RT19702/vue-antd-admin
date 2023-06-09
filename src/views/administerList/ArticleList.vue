@@ -25,6 +25,14 @@
           @change="changeStatus(slotProps)"
         />
       </template>
+      <template #actions>
+        <div class="d-flex justify-around">
+          <a-button class="button-margin" size="small" type="primary">
+            <a-icon type="file-search" />
+            详情
+          </a-button>
+        </div>
+      </template>
     </TableDefault>
   </div>
 </template>
@@ -92,6 +100,7 @@ export default {
         {
           title: '操作',
           align: 'center',
+          width: 200,
           scopedSlots: { customRender: 'actions' },
         },
       ],
@@ -155,6 +164,7 @@ export default {
         this.$message.success('启用成功')
       }
     },
+    // 禁用文章
     async disableInfo(val) {
       const { article_id } = this.selectedCurrent
       await article.disableArticle(article_id, val)
