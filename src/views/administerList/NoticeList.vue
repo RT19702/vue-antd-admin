@@ -26,9 +26,9 @@
       </template>
       <!-- 操作 -->
       <template #actions="{ slotProps }">
-        <div>
+        <div class="">
           <a-button
-            class="button-margin"
+            class="button"
             size="small"
             type="primary"
             @click="editMoadl(slotProps)"
@@ -44,7 +44,7 @@
             ><template slot="title">
               <p>是否确认删除</p>
             </template>
-            <a-button size="small" type="danger" class="button-margin">
+            <a-button size="small" type="danger" class="button">
               <a-icon type="delete" />
               删除
             </a-button>
@@ -110,7 +110,7 @@ export default {
           key: 'notice_content',
           dataIndex: 'notice_content',
           title: '公告内容',
-          width: 650,
+          width: '20vw',
           ellipsis: true,
           align: 'center',
         },
@@ -302,8 +302,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button-margin {
-  margin-left: 10px;
+.button {
+  margin:5px;
 }
 .operate {
   margin-bottom: 20px;

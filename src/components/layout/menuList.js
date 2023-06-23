@@ -26,7 +26,7 @@ export default [
   {
     id: 5,
     name: '门户管理',
-    icon: 'file',
+    icon: 'heat-map',
     children: [
       {
         id: 6,

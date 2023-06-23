@@ -8,6 +8,17 @@
       :formFields="disableFormConfig"
       @saveEvent="disableInfo"
     />
+    <!-- 文章详情表单 -->
+    <FormDefault
+      ref="articleForm"
+      :visible.sync="articleFormVisible"
+      :modalData="articleFormData"
+      :formFields="articleFormConfig"
+    >
+      <template #article_content>
+        <MdEditor />
+      </template>
+    </FormDefault>
     <!-- 文章列表 -->
     <TableDefault
       :columns="columns"
@@ -25,9 +36,14 @@
           @change="changeStatus(slotProps)"
         />
       </template>
-      <template #actions>
+      <template #actions="{ slotProps }">
         <div class="d-flex justify-around">
-          <a-button class="button-margin" size="small" type="primary">
+          <a-button
+            class="button-margin"
+            size="small"
+            type="primary"
+            @click="seeDetails(slotProps)"
+          >
             <a-icon type="file-search" />
             详情
           </a-button>
@@ -38,7 +54,7 @@
 </template>
 
 <script>
-import { TableDefault, FormDefault } from '@/components'
+import { TableDefault, FormDefault, MdEditor } from '@/components'
 import * as article from '@/api/article'
 export default {
   data() {
@@ -50,7 +66,7 @@ export default {
           dataIndex: 'article_title',
           title: '文章标题',
           align: 'center',
-          width: 200,
+          width: '10vw',
           ellipsis: true,
         },
         {
@@ -58,7 +74,7 @@ export default {
           dataIndex: 'owner_str',
           title: '用户名称',
           align: 'center',
-          width: 150,
+          width: '10vw',
           ellipsis: true,
         },
         {
@@ -100,7 +116,7 @@ export default {
         {
           title: '操作',
           align: 'center',
-          width: 200,
+          width: '10vw',
           scopedSlots: { customRender: 'actions' },
         },
       ],
@@ -132,13 +148,80 @@ export default {
         confirmLoading: false,
         formLayout: 'vertical',
       },
+      // 文章详情
+      articleFormVisible: false,
+      // 文章详情表单弹框
+      articleFormData: {
+        title: '文章详情',
+        confirmLoading: false,
+        formLayout: 'vertical',
+        width: '50vw'
+      },
+      // 文章详情配置
+      articleFormConfig: [{
+        label: '文章标题',
+        type: 'text',
+        key: 'article_title',
+        value: '',
+        disabled: true,
+      },
+      {
+        label: '创建人名称',
+        type: 'text',
+        key: 'owner_str',
+        value: '',
+        disabled: true,
+        span: 24,
+      },
+      {
+        label: '文章展现量',
+        type: 'text',
+        key: 'article_id',
+        value: '',
+        disabled: true,
+        span: 6,
+      },
+      {
+        label: '文章浏览量',
+        type: 'text',
+        key: 'article_view_count',
+        value: '',
+        disabled: true,
+        span: 6,
+      },
+      {
+        label: '文章收藏量',
+        type: 'text',
+        key: 'article_collect_count',
+        value: '',
+        disabled: true,
+        span: 6,
+      },
+      {
+        label: '文章关注量',
+        type: 'text',
+        key: 'article_follow_count',
+        value: '',
+        disabled: true,
+        span: 6,
+      },
+      {
+        label: '文章内容',
+        type: 'slot',
+        key: 'article_content',
+        value: '',
+        disabled: true,
+        span: 24,
+      }
+      ],
       // 当前选中文章信息
       selectedCurrent: {},
     }
   },
   components: {
     TableDefault,
-    FormDefault
+    FormDefault,
+    MdEditor
   },
   methods: {
     // 获取文章列表
@@ -174,6 +257,11 @@ export default {
       this.$refs.disableForm.setFormValues({
         noPassNotice: ''
       })
+    },
+    // 查看文章详情
+    seeDetails(item) {
+      console.log('🚀 ~ file: ArticleList.vue:185 ~ seeDetails ~ item:', item)
+      this.articleFormVisible = true
     }
   },
   computed: {
