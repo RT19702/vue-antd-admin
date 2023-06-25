@@ -1,17 +1,18 @@
 <template>
   <!-- <v-md-editor height="400px"></v-md-editor> -->
   <div class="editor">
-    <v-md-preview :text="text"></v-md-preview>
+    <v-md-preview :text="value"></v-md-preview>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      text: '',
+  props: {
+    value: {
+      type: String,
+      default: ''
     }
-  }
+  },
 }
 </script>
 

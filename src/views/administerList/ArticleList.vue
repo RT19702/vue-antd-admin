@@ -15,8 +15,8 @@
       :modalData="articleFormData"
       :formFields="articleFormConfig"
     >
-      <template #article_content>
-        <MdEditor />
+      <template #article_content="{ slotProps }">
+        <MdEditor :value="slotProps.value" />
       </template>
     </FormDefault>
     <!-- 文章列表 -->
@@ -62,14 +62,6 @@ export default {
       // 表格列
       columns: [
         {
-          key: 'article_title',
-          dataIndex: 'article_title',
-          title: '文章标题',
-          align: 'center',
-          width: '10vw',
-          ellipsis: true,
-        },
-        {
           key: 'owner_str',
           dataIndex: 'owner_str',
           title: '用户名称',
@@ -84,22 +76,20 @@ export default {
           align: 'center',
         },
         {
-          key: 'article_view_count',
-          dataIndex: 'article_view_count',
-          title: '浏览量',
+          key: 'article_title',
+          dataIndex: 'article_title',
+          title: '文章标题',
           align: 'center',
+          width: '10vw',
+          ellipsis: true,
         },
         {
-          key: 'article_collect_count',
-          dataIndex: 'article_collect_count',
-          title: '收藏量',
+          key: 'article_content',
+          dataIndex: 'article_content',
+          title: '文章内容',
           align: 'center',
-        },
-        {
-          key: 'article_follow_count',
-          dataIndex: 'article_follow_count',
-          title: '关注量',
-          align: 'center',
+          width: '20vw',
+          ellipsis: true,
         },
         {
           key: 'article_status',
@@ -210,10 +200,7 @@ export default {
         type: 'slot',
         key: 'article_content',
         value: '',
-        disabled: true,
-        span: 24,
-      }
-      ],
+      }],
       // 当前选中文章信息
       selectedCurrent: {},
     }
@@ -259,9 +246,14 @@ export default {
       })
     },
     // 查看文章详情
-    seeDetails(item) {
-      console.log('🚀 ~ file: ArticleList.vue:185 ~ seeDetails ~ item:', item)
+    async seeDetails(item) {
+      const { article_id } = item
+      const response = await article.getArticle(article_id)
+      this.articleFormConfig.forEach((config) => {
+        config.value = response[config.key]
+      })
       this.articleFormVisible = true
+      console.log('🚀 ~ file: ArticleList.vue:269 ~ this.articleFormConfig.forEach ~ this.articleFormConfig:', this.articleFormConfig)
     }
   },
   computed: {
@@ -292,4 +284,8 @@ export default {
 </script>
 
 <style>
+.ant-input[disabled] {
+  background-color: #fff;
+  color: #00000080;
+}
 </style>

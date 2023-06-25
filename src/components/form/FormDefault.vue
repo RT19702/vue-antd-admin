@@ -145,7 +145,7 @@
                 </template>
                 <!-- slot插槽 -->
                 <template v-else-if="field.type === 'slot'">
-                  <slot :name="field.key"></slot>
+                  <slot :name="field.key" :slotProps="field"></slot>
                 </template>
               </a-form-item>
             </a-col>
