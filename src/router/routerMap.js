@@ -31,6 +31,14 @@ export default [
           keepAlive: true,
         },
       },
+      {
+        path: '/user',
+        name: 'user',
+        component: () => import('@/views/administerList/UserList.vue'),
+        meta: {
+          keepAlive: true,
+        },
+      }
     ],
   },
   {
