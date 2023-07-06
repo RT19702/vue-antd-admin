@@ -7,8 +7,7 @@ import 'nprogress/nprogress.css'
 import { message } from 'ant-design-vue'
 
 const request = axios.create({
-  // baseURL: 'http://iwebapi.zlhranhou.com/public/index.php',
-  // baseURL: 'http://localhost:3000',
+  baseURL: '/api',
   timeout: 5000,
 })
 

@@ -16,7 +16,7 @@
       :formFields="articleFormConfig"
     >
       <template #article_content="{ slotProps }">
-        <MdEditor :value="slotProps.value" />
+        <MdPreview :value="slotProps.value" />
       </template>
     </FormDefault>
     <!-- 文章列表 -->
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { TableDefault, FormDefault, MdEditor } from '@/components'
+import { TableDefault, FormDefault, MdPreview } from '@/components'
 import * as article from '@/api/article'
 export default {
   data() {
@@ -208,7 +208,7 @@ export default {
   components: {
     TableDefault,
     FormDefault,
-    MdEditor
+    MdPreview
   },
   methods: {
     // 获取文章列表

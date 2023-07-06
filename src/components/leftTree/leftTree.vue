@@ -38,7 +38,7 @@
         nodeObj[replaceFields.id] === item[replaceFields.id]
           ? 'active-node'
           : '',
-        'tree-node',
+        'tree-node'
       ]"
       v-for="(item, index) in listData"
       @click="nodeClick(item, index)"

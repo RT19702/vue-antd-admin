@@ -1,6 +1,10 @@
 <template>
   <div>
-    <TableDefault :columns="userColumns" :data="userList">
+    <TableDefault
+      :columns="userColumns"
+      :data="userList"
+      :pagination="pagination"
+    >
       <template #state="{ slotProps }">
         <a-switch :checked="slotProps.enable_status === 1 ? true : false" />
       </template>
@@ -49,6 +53,12 @@ export default {
           scopedSlots: { customRender: 'state' },
         }
       ],
+      // 分页器
+      pagination: {
+        total: 0,
+        defaultPageSize: 10,
+        showTotal: (total) => `共 ${total} 条`,
+      },
       userList: []
     }
   },

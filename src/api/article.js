@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /* 文章列表 */
 export function getList(params) {
   return request({
-    url: '/api/admin/article',
+    url: '/admin/article',
     method: 'GET',
     params
   })
@@ -12,7 +12,7 @@ export function getList(params) {
 /* 文章启用 */
 export function enableArticle(id) {
   return request({
-    url: `/api/admin/article/enable/${id}`,
+    url: `/admin/article/enable/${id}`,
     method: 'POST'
   })
 }
@@ -20,7 +20,7 @@ export function enableArticle(id) {
 /* 文章禁用 */
 export function disableArticle(id, data) {
   return request({
-    url: `/api/admin/article/disable/${id}`,
+    url: `/admin/article/disable/${id}`,
     method: 'POST',
     data
   })
@@ -29,7 +29,7 @@ export function disableArticle(id, data) {
 /* 文章详情 */
 export function getArticle(id) {
   return request({
-    url: `/api/admin/article/${id}`,
+    url: `/admin/article/${id}`,
     method: 'GET'
   })
 }
@@ -37,7 +37,7 @@ export function getArticle(id) {
 /* 审核通过文章 */
 export function passArticle(id) {
   return request({
-    url: `/api/admin/article/pass/${id}`,
+    url: `/admin/article/pass/${id}`,
     method: 'POST'
   })
 }
@@ -45,7 +45,7 @@ export function passArticle(id) {
 /* 审核驳回文章 */
 export function rejectArticle(id, data) {
   return request({
-    url: `/api/admin/article/noPass/${id}`,
+    url: `/admin/article/noPass/${id}`,
     method: 'POST',
     data
   })

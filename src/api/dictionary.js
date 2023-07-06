@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 const api = {
-  getData: '/api/dataDictionary',
-  addDict: '/api/dataDictionary',
+  getData: '/dataDictionary',
+  addDict: '/dataDictionary',
 }
 export function getData(params) {
   return request({

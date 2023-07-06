@@ -13,22 +13,32 @@
       >
         <router-view></router-view>
       </a-layout-content>
+      <PageFooter
+        :icpFilingLink="footerLink.icpFilingLink"
+        :githubLink="footerLink.githubLink"
+      ></PageFooter>
     </a-layout>
   </a-layout>
 </template>
 <script>
 import SiteHeader from '@/components/layout/SiteHeader.vue'
 import SidebarMenu from '@/components/layout/SidebarMenu.vue'
+import PageFooter from '@/components/layout/footer/PageFooter'
+import { mapState } from 'vuex'
 export default {
   components: {
     SidebarMenu,
     SiteHeader,
+    PageFooter
   },
   data() {
     return {
       collapsed: false,
     }
   },
+  computed: {
+    ...mapState('setting', ['footerLink'])
+  }
 }
 </script>
 <style scoped>

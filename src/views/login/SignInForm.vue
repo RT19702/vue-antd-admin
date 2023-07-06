@@ -1,69 +1,83 @@
 <template>
-  <div class="container">
-    <div class="login">
-      <div class="header d-flex align-items-center justify-center">
-        <img alt="logo" class="logo" src="@/assets/img/logo.png" />
-        <span class="title">{{ systemName }}</span>
+  <div class="wraps">
+    <div class="container">
+      <div class="login">
+        <div class="header d-flex align-items-center justify-center">
+          <img alt="logo" class="logo" src="@/assets/img/logo.png" />
+          <span class="title">{{ systemName }}</span>
+        </div>
+        <a-form :form="form" @submit="handleSubmit">
+          <a-form-item label="账号" class="account">
+            <a-input
+              autocomplete="autocomplete"
+              size="large"
+              placeholder="zlhranhou"
+              v-decorator="[
+                'staff_account',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入账户名',
+                      whitespace: true
+                    }
+                  ]
+                }
+              ]"
+            >
+              <a-icon slot="prefix" type="user" />
+            </a-input>
+          </a-form-item>
+          <a-form-item label="密码">
+            <a-input
+              size="large"
+              placeholder="zlhranhou"
+              autocomplete="autocomplete"
+              type="password"
+              v-decorator="[
+                'pwd',
+                {
+                  rules: [
+                    { required: true, message: '请输入密码', whitespace: true }
+                  ]
+                }
+              ]"
+            >
+              <a-icon slot="prefix" type="lock" />
+            </a-input>
+          </a-form-item>
+          <a-form-item>
+            <a-button
+              class="gradient-button"
+              style="width: 100%"
+              :loading="loading"
+              size="large"
+              htmlType="submit"
+              type="primary"
+              >登录</a-button
+            >
+          </a-form-item>
+        </a-form>
       </div>
-      <a-form :form="form" @submit="handleSubmit">
-        <a-form-item label="账号" class="account">
-          <a-input
-            autocomplete="autocomplete"
-            size="large"
-            placeholder="zlhranhou"
-            v-decorator="[
-              'staff_account',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入账户名',
-                    whitespace: true,
-                  },
-                ],
-              },
-            ]"
-          >
-            <a-icon slot="prefix" type="user" />
-          </a-input>
-        </a-form-item>
-        <a-form-item label="密码">
-          <a-input
-            size="large"
-            placeholder="zlhranhou"
-            autocomplete="autocomplete"
-            type="password"
-            v-decorator="[
-              'pwd',
-              {
-                rules: [
-                  { required: true, message: '请输入密码', whitespace: true },
-                ],
-              },
-            ]"
-          >
-            <a-icon slot="prefix" type="lock" />
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-button
-            class="gradient-button"
-            style="width: 100%"
-            :loading="loading"
-            size="large"
-            htmlType="submit"
-            type="primary"
-            >登录</a-button
-          >
-        </a-form-item>
-      </a-form>
+    </div>
+    <div>
+      <PageFooter
+        :icpFilingLink="footerLink.icpFilingLink"
+        :githubLink="footerLink.githubLink"
+      ></PageFooter>
     </div>
   </div>
 </template>
 
 <script>
 import { loginApi } from '@/api/user'
+import PageFooter from '@/components/layout/footer/PageFooter'
+import { mapState } from 'vuex'
+
 export default {
+  components: {
+    PageFooter
+  },
   data() {
     return {
       systemName: 'International Web',
@@ -93,14 +107,22 @@ export default {
       })
     },
   },
+  computed: {
+    ...mapState('setting', ['footerLink'])
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.wraps {
+  height: 100%;
+  background: url('@/assets/img/theme_back.jpg') no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+}
 .container {
   height: 100%;
-  background: url("@/assets/img/theme_back.jpg") no-repeat;
-  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,7 +135,7 @@ export default {
     }
     .title {
       font-size: 33px;
-      font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica, sans-serif;
+      font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
       font-weight: 600;
       position: relative;
       top: 2px;

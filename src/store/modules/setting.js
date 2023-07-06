@@ -1,5 +1,8 @@
+import config from '@/config'
+
 const state = {
   collapsed: false,
+  ...config
 }
 
 const mutations = {
